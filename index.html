@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcify — Financial Calculator & LMS Generator</title>
+  <meta name="description" content="Generate UPI QR codes, calculate MDR, access resolution tools, and create professional LMS comments.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Header with Calcify Logo -->
+    <header class="app-header">
+      <img src="logo.png" alt="Calcify" class="brand-logo-img">
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <nav class="main-nav" aria-label="Main Navigation">
+      <button class="main-tab-btn active" data-target="financial-calc-section" type="button">
+        Financial Calculator
+      </button>
+      <button class="main-tab-btn" data-target="lms-generator-section" type="button">
+        LMS Generator
+      </button>
+    </nav>
+
+    <!-- ======================================================== -->
+    <!-- SECTION 1: FINANCIAL CALCULATOR                         -->
+    <!-- ======================================================== -->
+    <main id="financial-calc-section" class="main-section">
+      <div class="section-wrapper">
+        <div class="section-header">
+          <h2 class="section-title">Financial Calculator</h2>
+          <p class="section-desc">Generate UPI QR codes, calculate MDR, and Quick Links</p>
+        </div>
+
+        <!-- Sub Tabs -->
+        <div class="sub-nav" role="tablist">
+          <button class="sub-tab-btn active" data-target="tab-upi-qr" role="tab" type="button">UPI QR</button>
+          <button class="sub-tab-btn" data-target="tab-mdr" role="tab" type="button">MDR</button>
+          <button class="sub-tab-btn" data-target="tab-quick-links" role="tab" type="button">Quick Tools</button>
+        </div>
+
+        <!-- SUB TAB 1: UPI QR -->
+        <div id="tab-upi-qr" class="sub-section tool-card">
+          <div class="card-header">
+            <h3>UPI QR Code Generator</h3>
+            <p>Create a scannable UPI payment QR code.</p>
+          </div>
+
+          <form class="form-stack" onsubmit="return false;">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="upi-id">UPI ID <span class="req">*</span></label>
+                <input type="text" id="upi-id" class="input-field" placeholder="Enter UPI ID" value="Q" required>
+              </div>
+
+              <div class="form-group">
+                <label for="upi-handle">UPI Handle <span class="req">*</span></label>
+                <div class="select-wrapper">
+                  <select id="upi-handle" class="select-field">
+                    <option value="@ybl" selected>@ybl</option>
+                    <option value="@paytm">@paytm</option>
+                    <option value="@okhdfcbank">@okhdfcbank</option>
+                    <option value="@oksbi">@oksbi</option>
+                    <option value="@ibl">@ibl</option>
+                    <option value="@axl">@axl</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="btn-generate-qr" class="btn btn-primary">
+                Generate QR Code
+              </button>
+              <button type="button" id="btn-reset-qr" class="btn btn-secondary">Reset</button>
+            </div>
+          </form>
+
+          <!-- Result Area -->
+          <div id="qr-result-box" class="qr-result-box hidden">
+            <div id="qr-canvas-container" class="qr-code-canvas-wrapper"></div>
+            <div class="qr-actions">
+              <button type="button" id="btn-download-qr" class="btn btn-secondary btn-sm">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                Download QR
+              </button>
+            </div>
+            <div class="qr-vpa-text">
+              VPA: <strong id="vpa-display-text">Q@ybl</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB TAB 2: MDR CALCULATOR -->
+        <div id="tab-mdr" class="sub-section tool-card hidden">
+          <div class="card-header">
+            <h3>MDR Calculator</h3>
+            <p>Calculate MDR percentage or deductions for POS transactions.</p>
+          </div>
+
+          <div class="mdr-stack">
+            <!-- Mode 1: Find MDR % -->
+            <div class="mdr-sub-card">
+              <div class="mdr-card-header">
+                <h4>Find MDR %</h4>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="mdr-calc1-amount">Transaction Amount (₹) <span class="req">*</span></label>
+                  <input type="number" id="mdr-calc1-amount" class="input-field" placeholder="Enter amount" step="any">
+                </div>
+
+                <div class="form-group">
+                  <label for="mdr-calc1-deductions">Deductions (₹) <span class="req">*</span></label>
+                  <input type="number" id="mdr-calc1-deductions" class="input-field" placeholder="Enter deductions" step="any">
+                </div>
+              </div>
+
+              <button type="button" id="btn-calc-mdr1" class="btn btn-primary btn-full" style="margin-top: 14px;">
+                Calculate MDR %
+              </button>
+
+              <div id="mdr-res1-card" class="result-card hidden">
+                <div class="result-row">
+                  <span class="result-label">Calculated MDR:</span>
+                  <span class="result-value result-highlight" id="mdr-res1-pct">0.00%</span>
+                </div>
+                <div class="result-row">
+                  <span class="result-label">Net Settlement:</span>
+                  <span class="result-value" id="mdr-res1-net">₹0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mode 2: Find Deductions -->
+            <div class="mdr-sub-card" style="margin-top: 16px;">
+              <div class="mdr-card-header">
+                <h4>Find Deductions</h4>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="mdr-calc2-amount">Transaction Amount (₹) <span class="req">*</span></label>
+                  <input type="number" id="mdr-calc2-amount" class="input-field" placeholder="Enter amount" step="any">
+                </div>
+
+                <div class="form-group">
+                  <label for="mdr-calc2-pct">MDR % <span class="req">*</span></label>
+                  <input type="number" id="mdr-calc2-pct" class="input-field" placeholder="Enter MDR %" step="any">
+                </div>
+              </div>
+
+              <button type="button" id="btn-calc-mdr2" class="btn btn-primary btn-full" style="margin-top: 14px;">
+                Calculate Deductions
+              </button>
+
+              <div id="mdr-res2-card" class="result-card hidden">
+                <div class="result-row">
+                  <span class="result-label">Total Deductions:</span>
+                  <span class="result-value result-highlight" id="mdr-res2-ded">₹0.00</span>
+                </div>
+                <div class="result-row">
+                  <span class="result-label">Net Settlement:</span>
+                  <span class="result-value" id="mdr-res2-net">₹0.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB TAB 3: QUICK TOOLS LINKS -->
+        <div id="tab-quick-links" class="sub-section tool-card hidden">
+          <div class="card-header">
+            <h3>Sales & Documentation Links</h3>
+            <p>Direct access to savings visualizer, brochure generator, and resolution document portals.</p>
+          </div>
+
+          <div class="links-container">
+            <!-- Ad Sales Links (Native HTML5 Expandable Card) -->
+            <details class="link-card ad-sales-card" id="ad-sales-card">
+              <summary class="ad-sales-header">
+                <div class="link-card-left">
+                  <div class="link-icon-circle" style="background: #e0f2fe; color: #0284c7;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                  </div>
+                  <div class="link-details">
+                    <h4>
+                      Ad Sales Links
+                      <span class="tag-badge" style="background: #e0f2fe; color: #0369a1;">3 Links</span>
+                    </h4>
+                    <p style="font-size: 0.78rem; color: var(--text-muted);">Click to view onboarding, payment & T&C merchant links</p>
+                  </div>
+                </div>
+                <div class="link-card-right">
+                  <span class="btn btn-secondary btn-sm toggle-chevron-btn">
+                    <span class="toggle-btn-text" id="ad-sales-toggle-text">View Links</span>
+                    <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </span>
+                </div>
+              </summary>
+
+              <!-- Collapsible Content with 3 Sharable Links -->
+              <div class="ad-sales-dropdown">
+                <div class="ad-sales-links-list">
+                  <!-- Link 1: Onboarding Form & MVF -->
+                  <div class="sub-link-item">
+                    <div class="sub-link-info">
+                      <span class="sub-link-badge agent">For Agent</span>
+                      <strong class="sub-link-title">AD Sales - Onboarding Form & MVF</strong>
+                    </div>
+                    <div class="sub-link-actions">
+                      <button type="button" class="btn btn-secondary btn-sm btn-share-link" data-url="https://forms.gle/64VEYMgnWmLzLMhK7" data-title="AD Sales- Onboarding Form & MVF (For Agent)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Share</span>
+                      </button>
+                      <a href="https://forms.gle/64VEYMgnWmLzLMhK7" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                        <span>Open</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Link 2: Payment Link -->
+                  <div class="sub-link-item">
+                    <div class="sub-link-info">
+                      <span class="sub-link-badge merchant">For Merchant</span>
+                      <strong class="sub-link-title">Payment Link</strong>
+                    </div>
+                    <div class="sub-link-actions">
+                      <button type="button" class="btn btn-secondary btn-sm btn-share-link" data-url="https://pg-checkout.phonepe.com/payment-pages-web/PP2606291243016327786635" data-title="Payment Link (For Merchant)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Share</span>
+                      </button>
+                      <a href="https://pg-checkout.phonepe.com/payment-pages-web/PP2606291243016327786635" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                        <span>Open</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Link 3: T&C Link -->
+                  <div class="sub-link-item">
+                    <div class="sub-link-info">
+                      <span class="sub-link-badge merchant">For Merchant</span>
+                      <strong class="sub-link-title">T&C Link</strong>
+                    </div>
+                    <div class="sub-link-actions">
+                      <button type="button" class="btn btn-secondary btn-sm btn-share-link" data-url="https://play.google.com/store/apps/details?id=com.phonepe.app.business" data-title="T&C Link (For Merchant)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Share</span>
+                      </button>
+                      <a href="https://play.google.com/store/apps/details?id=com.phonepe.app.business" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                        <span>Open</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Link 1: Revamped Savings Calculator -->
+            <div class="link-card">
+              <div class="link-card-left">
+                <div class="link-icon-circle">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                </div>
+                <div class="link-details">
+                  <h4>
+                    Revamped Savings Calculator
+                    <span class="tag-badge tool">Pitching Tool</span>
+                  </h4>
+                  <ul class="link-bullets">
+                    <li>Frame a message in the local language to communicate savings</li>
+                    <li>Helps to generate a visual image (kind of brochure) of the saving with a sharp messaging</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="link-card-right">
+                <a href="https://script.google.com/a/macros/phonepe.com/s/AKfycbyoJ1J0WcKmoJMgym7_4QJDWcYiRI8PIo6PvjRF7hHGCjo7y9HizrR3KZJsVgo8WtkNFw/exec" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                  <span>Open Tool</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link 2: Partnership Resolution Generator (Old) -->
+            <div class="link-card">
+              <div class="link-card-left">
+                <div class="link-icon-circle">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>
+                </div>
+                <div class="link-details">
+                  <h4>
+                    Partnership Resolution Generator (Old)
+                    <span class="tag-badge">Simple Tool</span>
+                  </h4>
+                  <ul class="link-bullets">
+                    <li>Generate partnership firm onboarding resolution documentation</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="link-card-right">
+                <a href="https://www.phonepe.com/apollo/html/OnboardingDocGenerator.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                  <span>Open Tool</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link 3: Partnership & Company Resolution Generator (Updated) -->
+            <div class="link-card">
+              <div class="link-card-left">
+                <div class="link-icon-circle">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="link-details">
+                  <h4>
+                    Partnership & Company Resolution Generator (Updated)
+                    <span class="tag-badge updated">Updated</span>
+                  </h4>
+                  <ul class="link-bullets">
+                    <li>Generate updated partnership & company resolution Onboarding & REKYC</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="link-card-right">
+                <a href="https://ad-pp.github.io/kyc_doc_generator/" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                  <span>Open Tool</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Link 4: Pre-screening Form -->
+            <div class="link-card">
+              <div class="link-card-left">
+                <div class="link-icon-circle">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                </div>
+                <div class="link-details">
+                  <h4>
+                    Pre-screening Form
+                    <span class="tag-badge tool">KYC Support</span>
+                  </h4>
+                  <ul class="link-bullets">
+                    <li>It helps in prescreening KYC documents</li>
+                    <li>Expert team support for Onboarding and ReKYC</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="link-card-right">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSebNCbQqySFml7_gjYxF0wYNpIQyZCZ_UJ-UZ9fz9KpyMRAVA/viewform" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                  <span>Open Tool</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ======================================================== -->
+    <!-- SECTION 2: LMS COMMENT GENERATOR                        -->
+    <!-- ======================================================== -->
+    <main id="lms-generator-section" class="main-section hidden">
+      <div class="section-wrapper">
+        <div class="tool-card">
+          <div class="card-header">
+            <h3>LMS Comment Generator</h3>
+            <p>Enter merchant details to create a professional lead comment.</p>
+          </div>
+
+          <form id="lms-form" class="form-stack" onsubmit="return false;">
+            <div class="form-grid">
+              <!-- Merchant / Owner Name -->
+              <div class="form-group">
+                <label for="lms-merchant-name">Merchant / Owner Name <span class="req">*</span></label>
+                <input type="text" id="lms-merchant-name" class="input-field" placeholder="e.g. Rakesh" required>
+              </div>
+
+              <!-- Average Basket Value -->
+              <div class="form-group">
+                <label for="lms-avg-basket">Average Basket Value (₹) <span class="req">*</span></label>
+                <input type="number" id="lms-avg-basket" class="input-field" placeholder="e.g. 1000" required step="any">
+              </div>
+
+              <!-- Monthly TPV -->
+              <div class="form-group">
+                <label for="lms-monthly-tpv">Monthly TPV (₹ lakh) <span class="req">*</span></label>
+                <input type="number" id="lms-monthly-tpv" class="input-field" placeholder="e.g. 4" required step="any">
+              </div>
+
+              <!-- Premiumness -->
+              <div class="form-group">
+                <label for="lms-premiumness">Premiumness <span class="req">*</span></label>
+                <div class="select-wrapper">
+                  <select id="lms-premiumness" class="select-field">
+                    <option value="" disabled selected>Select Premiumness</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Conditional: GST (Visible when Premiumness == No) -->
+              <div id="group-gst" class="form-group conditional-field hidden">
+                <label for="lms-gst">GST <span class="req">*</span></label>
+                <div class="select-wrapper">
+                  <select id="lms-gst" class="select-field">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Conditional: Current Account (Visible when Premiumness == No) -->
+              <div id="group-current-acc" class="form-group conditional-field hidden">
+                <label for="lms-current-acc">Current account <span class="req">*</span></label>
+                <div class="select-wrapper">
+                  <select id="lms-current-acc" class="select-field">
+                    <option value="Yes">Yes</option>
+                    <option value="No" selected>No</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Requirement / Lead Status -->
+              <div class="form-group full-width">
+                <label for="lms-lead-status">Lead Status <span class="req">*</span></label>
+                <div class="select-wrapper">
+                  <select id="lms-lead-status" class="select-field">
+                    <option value="Key Decision maker discussion pending" selected>Key Decision maker discussion pending</option>
+                    <option value="Merchant interested-needs better MDR">Merchant interested-needs better MDR</option>
+                    <option value="Merchant interested-needs better Rental">Merchant interested-needs better Rental</option>
+                    <option value="Merchant wants to RVP competition device first">Merchant wants to RVP competition device first</option>
+                    <option value="Onboarding / OQC requirement not getting fulfilled-needs follow up">Onboarding / OQC requirement not getting fulfilled-needs follow up</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Conditional: Renewed MDR/Rental (Visible when better MDR or better Rental is chosen) -->
+              <div id="group-renewed-details" class="form-group full-width conditional-field hidden">
+                <label for="lms-renewed-val">Renewed MDR / Rental <span class="req">*</span></label>
+                <input type="text" id="lms-renewed-val" class="input-field" placeholder="e.g. 1.30 or 199/month">
+              </div>
+
+              <!-- Currently Using POS? -->
+              <div class="form-group full-width">
+                <label for="lms-using-pos">Currently using Pos <span class="req">*</span></label>
+                <div class="select-wrapper">
+                  <select id="lms-using-pos" class="select-field">
+                    <option value="No" selected>No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Conditional: POS Details (Visible when Currently Using POS == Yes) -->
+              <div id="group-pos-details" class="form-grid full-width conditional-field hidden" style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 3.5px solid var(--primary); border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+                <div class="form-group">
+                  <label for="lms-current-pos">Current Pos <span class="req">*</span></label>
+                  <input type="text" id="lms-current-pos" class="input-field" placeholder="e.g. HDFC">
+                </div>
+                <div class="form-group">
+                  <label for="lms-current-mdr">current MDR <span class="req">*</span></label>
+                  <input type="number" id="lms-current-mdr" class="input-field" placeholder="e.g. 1.65" step="any">
+                </div>
+                <div class="form-group full-width">
+                  <label for="lms-current-rent">Current Rent/month <span class="req">*</span></label>
+                  <input type="number" id="lms-current-rent" class="input-field" placeholder="e.g. 199 (or 0 for no rental)" step="any">
+                </div>
+              </div>
+
+              <!-- Followup Date -->
+              <div class="form-group full-width">
+                <label for="lms-followup-date">Followup Date <span class="req">*</span></label>
+                <input type="date" id="lms-followup-date" class="input-field" required>
+              </div>
+            </div>
+
+            <!-- LMS Action Buttons -->
+            <div class="form-actions">
+              <button type="button" id="btn-generate-comment" class="btn btn-primary">
+                Generate Comment
+              </button>
+              <button type="button" id="btn-clear-lms" class="btn btn-secondary">Clear</button>
+            </div>
+          </form>
+
+          <!-- Generated Comment Display Card -->
+          <div id="lms-output-section" class="output-section hidden">
+            <div class="output-inner-card">
+              <div class="output-header">
+                <h4>Generated LMS Lead Comment</h4>
+                <span id="lms-char-count" class="char-count-text">0 characters</span>
+              </div>
+
+              <textarea id="lms-output-text" class="output-box" rows="8" spellcheck="false"></textarea>
+
+              <div class="output-box-actions">
+                <button type="button" id="btn-copy-comment" class="btn btn-primary btn-sm">
+                  Copy Comment
+                </button>
+                <button type="button" id="btn-clear-comment" class="btn btn-secondary btn-sm">
+                  Clear Comment
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Created by:- <strong>Tharun Kumar</strong></p>
+      <p style="margin-top: 6px;">
+        <a href="mailto:calcify.sales@gmail.com" class="footer-mail-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          calcify.sales@gmail.com
+        </a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="qrcode.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
