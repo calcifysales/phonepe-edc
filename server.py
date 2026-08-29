@@ -1,16 +1,9 @@
-#!/usr/bin/env python3
-"""
-Simple local HTTP server to preview Calcify.
-Usage: python server.py [port]
-"""
-
 import http.server
 import socketserver
 import os
 import sys
-import webbrowser
 
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 3000
+PORTS = [3000, 3001, 5000, 5500, 8000, 8081, 8082, 8888]
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
@@ -19,18 +12,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 def run_server():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        url = f"http://localhost:{PORT}"
-        print(f"Calcify app running at: {url}")
-        print("Press Ctrl+C to stop the server.")
+    
+    for port in PORTS:
         try:
-            webbrowser.open(url)
-        except Exception:
-            pass
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("\nServer stopped.")
+            with socketserver.TCPServer(("", port), Handler) as httpd:
+                print(f"Calcify suite running at: http://localhost:{port}")
+                httpd.serve_forever()
+        except OSError:
+            print(f"Port {port} in use, trying next...")
+            continue
 
 if __name__ == '__main__':
     run_server()
