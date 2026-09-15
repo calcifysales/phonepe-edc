@@ -237,6 +237,9 @@ body {
   border: 1px solid transparent;
   text-align: left;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  box-sizing: border-box;
   transition: all var(--transition);
 }
 
@@ -348,28 +351,33 @@ body {
   color: var(--text-muted);
 }
 
-/* Sub Tabs (3 Tabs: UPI QR, MDR, Quick Links) */
+/* Sub Tabs (Minimized to only MDR and Quick Links) */
 .sub-nav {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: inline-flex;
+  align-self: center;
   background-color: #edf2f7;
-  padding: 3px;
+  padding: 4px;
   border-radius: var(--radius-md);
   border: 1px solid #e2e8f0;
-  gap: 3px;
+  gap: 4px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .sub-tab-btn {
   background: transparent;
   border: none;
-  padding: 8px 10px;
-  font-size: 0.80rem;
+  padding: 8px 24px;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--transition);
   text-align: center;
+  white-space: nowrap;
+  min-width: 120px;
 }
 
 .sub-tab-btn:hover:not(.active) {
@@ -2138,4 +2146,1104 @@ details.pg-leads-card summary:hover {
   }
 }
 
+/* ============================================================= */
+/* PDF GENERATOR FOR PARTNERSHIP DEED & STUDIO STYLES            */
+/* ============================================================= */
 
+/* Stepper Bar */
+.deed-stepper-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 10px 16px;
+  margin: 14px 0 18px;
+}
+
+.deed-step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+
+.deed-step-item.active {
+  color: #dc2626;
+}
+
+.deed-step-item.completed {
+  color: #059669;
+}
+
+.deed-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #e2e8f0;
+  color: var(--text-sub);
+}
+
+.deed-step-item.active .deed-step-num {
+  background: #dc2626;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.35);
+}
+
+.deed-step-item.completed .deed-step-num {
+  background: #059669;
+  color: #ffffff;
+}
+
+.deed-step-sep {
+  flex: 1;
+  height: 2px;
+  background: #e2e8f0;
+  margin: 0 12px;
+}
+
+/* Upload Dropzone */
+.deed-upload-dropzone {
+  border: 2px dashed #fca5a5;
+  background: #fffafa;
+  border-radius: var(--radius-xl);
+  padding: 38px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.deed-upload-dropzone:hover,
+.deed-upload-dropzone.dragover {
+  border-color: #dc2626;
+  background: #fef2f2;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.08);
+}
+
+/* Page Toolbar & Reorder Tip */
+.deed-pages-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+}
+
+.deed-order-tip {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Grid of Pages */
+.deed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.deed-page-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-color);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  user-select: none;
+}
+
+.deed-page-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  border-color: #fca5a5;
+}
+
+.deed-page-card.dragging {
+  opacity: 0.45;
+  border: 2px dashed #dc2626;
+}
+
+.deed-page-card.drag-over {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+.deed-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.deed-page-pill {
+  background: #fef2f2;
+  color: #dc2626;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #fee2e2;
+  letter-spacing: 0.02em;
+}
+
+.deed-card-delete-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.deed-card-delete-btn:hover {
+  color: #dc2626;
+  background: #fee2e2;
+}
+
+.deed-page-thumb-box {
+  width: 100%;
+  height: 180px;
+  background: #f8fafc;
+  border-radius: var(--radius-md);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.deed-page-thumb-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.deed-page-thumb-box:hover img {
+  transform: scale(1.03);
+}
+
+.deed-page-edit-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  backdrop-filter: blur(1.5px);
+}
+
+.deed-page-thumb-box:hover .deed-page-edit-overlay {
+  opacity: 1;
+}
+
+.deed-card-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deed-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding-top: 6px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.deed-mini-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: var(--text-sub);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.deed-mini-btn:hover:not(:disabled) {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: var(--text-main);
+}
+
+.deed-mini-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Proceed Choice Modal */
+.deed-choice-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.deed-choice-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-color);
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.deed-choice-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.deed-choice-card.primary {
+  border-color: #fca5a5;
+  background: #fffafa;
+}
+
+.deed-choice-card.primary:hover {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+.deed-choice-card.secondary:hover {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.deed-choice-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.deed-choice-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.deed-choice-content strong {
+  font-size: 0.92rem;
+  color: var(--text-main);
+}
+
+.deed-choice-content span {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.deed-choice-arrow {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  font-weight: 700;
+  transition: transform 0.15s ease;
+}
+
+.deed-choice-card:hover .deed-choice-arrow {
+  transform: translateX(3px);
+  color: var(--text-main);
+}
+
+/* Deed Studio Modal */
+.deed-studio-dialog {
+  max-width: 960px;
+  width: 95vw;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.deed-studio-body {
+  padding: 0 !important;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.deed-studio-carousel-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.studio-thumbs-scroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px;
+  flex: 1;
+  max-width: calc(100% - 240px);
+  scrollbar-width: thin;
+}
+
+.studio-thumb-item {
+  width: 48px;
+  height: 60px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background: #ffffff;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: var(--transition);
+}
+
+.studio-thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.studio-thumb-item.active {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.25);
+}
+
+.studio-thumb-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: rgba(15, 23, 42, 0.75);
+  color: #ffffff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+/* Studio Layout (Stage + Sidebar) */
+.deed-studio-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  min-height: 480px;
+  max-height: 620px;
+}
+
+.deed-canvas-stage {
+  background: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.deed-canvas-container {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+#deed-studio-canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 420px;
+  border-radius: 4px;
+}
+
+/* Crop Overlay Box */
+.deed-crop-box {
+  position: absolute;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.65);
+  cursor: move;
+  touch-action: none;
+}
+
+.crop-grid-line {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.crop-grid-h1 { top: 33.33%; left: 0; right: 0; height: 1px; }
+.crop-grid-h2 { top: 66.66%; left: 0; right: 0; height: 1px; }
+.crop-grid-v1 { left: 33.33%; top: 0; bottom: 0; width: 1px; }
+.crop-grid-v2 { left: 66.66%; top: 0; bottom: 0; width: 1px; }
+
+/* 8 Grab Handles */
+.crop-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border: 2px solid #dc2626;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  touch-action: none;
+}
+
+.crop-handle-nw { top: -6px; left: -6px; cursor: nwse-resize; }
+.crop-handle-n  { top: -6px; left: calc(50% - 6px); cursor: ns-resize; }
+.crop-handle-ne { top: -6px; right: -6px; cursor: nesw-resize; }
+.crop-handle-e  { top: calc(50% - 6px); right: -6px; cursor: ew-resize; }
+.crop-handle-se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+.crop-handle-s  { bottom: -6px; left: calc(50% - 6px); cursor: ns-resize; }
+.crop-handle-sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
+.crop-handle-w  { top: calc(50% - 6px); left: -6px; cursor: ew-resize; }
+
+.deed-canvas-quick-bar {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 6px 12px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.studio-dim-badge {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 600;
+  padding-left: 4px;
+}
+
+/* Studio Sidebar */
+.deed-studio-sidebar {
+  background: #ffffff;
+  border-left: 1px solid var(--border-color);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.studio-tool-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.studio-tool-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.studio-aspect-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.studio-aspect-btn {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.studio-aspect-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.studio-aspect-btn.active {
+  background: #fef2f2;
+  border-color: #dc2626;
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.studio-icon-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.studio-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.studio-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: #f8fafc;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.studio-filter-btn:hover {
+  background: #f1f5f9;
+}
+
+.studio-filter-btn.active {
+  border-color: #dc2626;
+  background: #fef2f2;
+  box-shadow: 0 0 0 1px #dc2626;
+}
+
+.filter-sample {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.filter-sample.normal { background: linear-gradient(135deg, #38bdf8, #818cf8); }
+.filter-sample.stamp  { background: linear-gradient(135deg, #10b981, #0284c7); }
+.filter-sample.bw     { background: linear-gradient(135deg, #000000 50%, #ffffff 50%); }
+.filter-sample.gray   { background: #94a3b8; }
+.filter-sample.magic  { background: linear-gradient(135deg, #f59e0b, #ec4899); }
+
+.filter-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.studio-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.studio-slider-row label {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.studio-slider {
+  width: 100%;
+  accent-color: #dc2626;
+  cursor: pointer;
+}
+
+/* ============================================================= */
+/* ADVANCED MOBILE USAGE & TOUCH RESPONSIVENESS SUITE            */
+/* ============================================================= */
+
+/* Tablet & Mobile Breakpoint (<= 820px) */
+@media (max-width: 820px) {
+  .deed-studio-dialog {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  .deed-studio-layout {
+    grid-template-columns: 1fr;
+    max-height: none;
+  }
+
+  .deed-studio-sidebar {
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+    padding: 14px 12px;
+  }
+
+  .deed-canvas-stage {
+    min-height: 300px;
+    padding: 10px;
+  }
+
+  #deed-studio-canvas {
+    max-height: 52vh;
+  }
+}
+
+/* Smartphone Breakpoint (<= 640px) */
+@media (max-width: 640px) {
+  /* Global Touch & Viewport ergonomics */
+  html, body {
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
+
+  /* Prevent iOS zoom on input focus while keeping modern typography */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  .app-wrapper {
+    padding: 6px 10px 32px;
+    gap: 10px;
+  }
+
+  /* Header & Drawer */
+  .app-header {
+    padding: 4px 2px;
+  }
+
+  .side-drawer {
+    width: min(320px, 86vw);
+  }
+
+  .drawer-nav-item {
+    min-height: 48px;
+    padding: 10px 12px;
+  }
+
+  /* Main Navigation Buttons */
+  .main-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 3px;
+    border-radius: var(--radius-lg);
+  }
+
+  .main-tab-btn {
+    min-height: 42px;
+    padding: 8px 4px;
+    font-size: 0.78rem;
+  }
+
+  /* Financial Sub Tabs */
+  .sub-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    padding: 3px;
+  }
+
+  .sub-tab-btn {
+    min-height: 38px;
+    padding: 6px 2px;
+    font-size: 0.72rem;
+  }
+
+  /* Stepper Bar in Partnership Deed */
+  .deed-stepper-bar {
+    padding: 8px 10px;
+    margin: 10px 0 14px;
+    gap: 4px;
+  }
+
+  .deed-step-label {
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+
+  .deed-step-sep {
+    margin: 0 4px;
+  }
+
+  /* Dropzone on Mobile */
+  .deed-upload-dropzone {
+    padding: 24px 12px;
+    border-radius: var(--radius-lg);
+  }
+
+  .deed-upload-dropzone h4 {
+    font-size: 0.95rem !important;
+  }
+
+  .deed-upload-dropzone p {
+    font-size: 0.74rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  #btn-deed-choose-files {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+  }
+
+  /* Toolbar */
+  .deed-pages-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .deed-toolbar-right {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* 2-Column Responsive Grid for Deed Page Cards */
+  .deed-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+
+  .deed-page-card {
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  .deed-page-thumb-box {
+    height: 130px;
+  }
+
+  .deed-page-pill {
+    font-size: 0.65rem;
+    padding: 1px 6px;
+  }
+
+  .deed-card-meta {
+    font-size: 0.66rem;
+  }
+
+  .deed-mini-btn {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+    min-width: 28px;
+    min-height: 28px;
+  }
+
+  /* Proceed Button Bar */
+  .deed-proceed-bar {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 8px;
+  }
+
+  #btn-deed-proceed {
+    width: 100%;
+    justify-content: center;
+    padding: 13px;
+    font-size: 0.95rem;
+  }
+
+  /* Proceed Choice Modal */
+  .deed-choice-card {
+    padding: 12px 10px;
+    gap: 10px;
+  }
+
+  .deed-choice-icon-wrap {
+    width: 38px;
+    height: 38px;
+  }
+
+  .deed-choice-content strong {
+    font-size: 0.86rem;
+  }
+
+  .deed-choice-content span {
+    font-size: 0.72rem;
+  }
+
+  /* Studio Modal Mobile Experience */
+  .deed-studio-carousel-bar {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  #btn-studio-prev-page,
+  #btn-studio-next-page {
+    padding: 6px 8px !important;
+    font-size: 0.72rem;
+  }
+
+  .studio-thumb-item {
+    width: 42px;
+    height: 52px;
+  }
+
+  /* Touch-Friendly Enlarged Crop Handles */
+  .crop-handle {
+    width: 18px;
+    height: 18px;
+    border-width: 2.5px;
+  }
+
+  /* Invisible 40px Hitbox for Easy Finger Dragging */
+  .crop-handle::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+  }
+
+  .crop-handle-nw { top: -9px; left: -9px; }
+  .crop-handle-n  { top: -9px; left: calc(50% - 9px); }
+  .crop-handle-ne { top: -9px; right: -9px; }
+  .crop-handle-e  { top: calc(50% - 9px); right: -9px; }
+  .crop-handle-se { bottom: -9px; right: -9px; }
+  .crop-handle-s  { bottom: -9px; left: calc(50% - 9px); }
+  .crop-handle-sw { bottom: -9px; left: -9px; }
+  .crop-handle-w  { top: calc(50% - 9px); left: -9px; }
+
+  /* Studio Quick Bar */
+  .deed-canvas-quick-bar {
+    padding: 4px 10px;
+    bottom: 8px;
+    gap: 6px;
+  }
+
+  .deed-canvas-quick-bar button {
+    font-size: 0.68rem;
+    padding: 3px 8px;
+  }
+
+  /* Studio Sidebar Tool Grids */
+  .studio-aspect-btns {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+
+  .studio-aspect-btn {
+    min-height: 38px;
+    font-size: 0.72rem;
+  }
+
+  .studio-icon-btns {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+
+  .studio-icon-btns button {
+    min-height: 38px;
+    font-size: 0.72rem;
+  }
+
+  .studio-filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+
+  .studio-filter-btn {
+    min-height: 38px;
+    padding: 5px 8px;
+  }
+
+  .filter-name {
+    font-size: 0.70rem;
+  }
+
+  /* Studio Footer Sticky with Thumb Reach */
+  .deed-studio-footer {
+    padding: 10px 12px env(safe-area-inset-bottom, 10px) !important;
+    background: #ffffff;
+    gap: 6px;
+  }
+
+  .deed-studio-footer > div {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  #btn-studio-back-pages {
+    width: 100%;
+    margin-bottom: 2px;
+  }
+
+  #btn-studio-done-footer {
+    grid-column: span 2;
+    padding: 10px;
+    font-size: 0.88rem;
+  }
+
+  /* OVD Document Paper Scaling on Mobile */
+  .ovd-modal-paper-wrap {
+    padding: 8px 4px !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ovd-a4-paper {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 14px 10px !important;
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0;
+  }
+
+  .ovd-paper-store-name {
+    font-size: 0.86rem !important;
+  }
+
+  .ovd-paper-contact-box {
+    font-size: 0.68rem !important;
+  }
+
+  .ovd-paper-grid {
+    gap: 8px !important;
+  }
+
+  .ovd-paper-card {
+    padding: 8px !important;
+  }
+
+  .ovd-paper-img-cell {
+    height: 140px !important;
+  }
+
+  /* Calcify Docs Controls on Mobile */
+  .docs-controls-card {
+    padding: 12px 10px;
+  }
+
+  .docs-export-bar {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+
+  .docs-export-bar button {
+    width: 100%;
+    padding: 8px 6px !important;
+    font-size: 0.72rem !important;
+  }
+}
+
+/* Extra Small Phones (<= 380px) */
+@media (max-width: 380px) {
+  .deed-step-label {
+    display: none;
+  }
+
+  .deed-step-num {
+    width: 26px;
+    height: 26px;
+    font-size: 0.82rem;
+  }
+
+  .deed-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .deed-page-thumb-box {
+    height: 160px;
+  }
+}
+
+/* ============================================================= */
+/* UPI QR GENERATOR STYLES                                       */
+/* ============================================================= */
+.qr-result-box {
+  margin-top: 20px;
+  padding: 22px 18px;
+  background: #faf5ff;
+  border: 1.5px solid #d8b4fe;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(95, 37, 159, 0.06);
+}
+
+.qr-code-canvas-wrapper {
+  padding: 16px;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(95, 37, 159, 0.10);
+  border: 1px solid #f1f5f9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-code-canvas-wrapper canvas,
+.qr-code-canvas-wrapper img {
+  display: block;
+  max-width: 210px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.qr-vpa-text {
+  font-size: 0.88rem;
+  color: var(--text-main);
+  background: #ffffff;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.qr-vpa-text strong {
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+
+.qr-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

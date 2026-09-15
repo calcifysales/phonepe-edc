@@ -91,8 +91,12 @@ function initNavigation() {
   drawerItems.forEach(item => {
     item.addEventListener('click', () => {
       const targetId = item.dataset.target;
-      switchSection(targetId);
-      closeDrawer();
+      if (targetId) {
+        switchSection(targetId);
+        closeDrawer();
+      } else if (item.tagName === 'A') {
+        closeDrawer();
+      }
     });
   });
 
@@ -115,69 +119,105 @@ function initNavigation() {
 }
 
 // -------------------------------------------------------------
-// 2. UPI QR Code Generator (Literal '@' without %40 encoding)
+// 2. UPI QR Code Generator
 // -------------------------------------------------------------
 function initUPIQR() {
   const upiIdInput = document.getElementById('upi-id');
   const upiHandleSelect = document.getElementById('upi-handle');
-  
-  const generateBtn = document.getElementById('btn-generate-qr');
-  const resetBtn = document.getElementById('btn-reset-qr');
-  const downloadQrBtn = document.getElementById('btn-download-qr');
-
+  const btnGenerate = document.getElementById('btn-generate-qr');
+  const btnReset = document.getElementById('btn-reset-qr');
+  const resultBox = document.getElementById('qr-result-box');
   const qrContainer = document.getElementById('qr-canvas-container');
-  const qrResultBox = document.getElementById('qr-result-box');
-  const vpaText = document.getElementById('vpa-display-text');
+  const vpaDisplay = document.getElementById('vpa-display-text');
+  const btnDownload = document.getElementById('btn-download-qr');
 
-  function getFullVPA() {
-    let rawId = (upiIdInput.value || '').trim();
-    let handle = upiHandleSelect.value;
-    return rawId + handle;
-  }
+  if (!btnGenerate) return;
 
-  function generateQR() {
-    const rawId = (upiIdInput.value || '').trim();
-    if (!rawId || rawId === 'Q') {
-      alert('Please enter a valid UPI ID after Q (e.g. Q784287125)');
-      upiIdInput.focus();
+  let qrCodeInstance = null;
+
+  btnGenerate.addEventListener('click', () => {
+    const rawId = (upiIdInput?.value || '').trim();
+    if (!rawId) {
+      showToast('Please enter a valid UPI ID', 'error');
+      upiIdInput?.focus();
       return;
     }
 
-    const vpa = getFullVPA();
-    // Use literal @ without percent-encoding %40
-    const upiUri = `upi://pay?pa=${vpa}&pn=Merchant&cu=INR`;
+    const handle = upiHandleSelect?.value || '@ybl';
+    const vpa = (rawId.includes('@') ? rawId : `${rawId}${handle}`).replace(/\s+/g, '');
+    // NPCI UPI URI standard requires literal '@' in pa/pn rather than percent-encoded %40
+    const upiUri = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(vpa).replace(/%40/g, '@')}&cu=INR`;
 
-    qrContainer.innerHTML = '';
-    if (typeof createQRCodeCanvas === 'function') {
-      const canvas = createQRCodeCanvas(upiUri, 240);
-      qrContainer.appendChild(canvas);
+    if (qrContainer) {
+      qrContainer.innerHTML = '';
+      try {
+        if (typeof window.createQRCodeCanvas === 'function') {
+          const canvas = window.createQRCodeCanvas(upiUri, 220, {
+            colorDark: '#0f172a',
+            colorLight: '#ffffff'
+          });
+          qrContainer.appendChild(canvas);
+        } else if (typeof QRCode !== 'undefined') {
+          qrCodeInstance = new QRCode(qrContainer, {
+            text: upiUri,
+            width: 220,
+            height: 220,
+            colorDark: '#0f172a',
+            colorLight: '#ffffff'
+          });
+        } else {
+          showToast('QR generator library unavailable', 'error');
+          return;
+        }
+      } catch (err) {
+        console.error('Failed to generate QR:', err);
+        showToast('Could not generate QR code', 'error');
+        return;
+      }
     }
 
-    vpaText.textContent = vpa;
-    qrResultBox.classList.remove('hidden');
-    showToast('QR Code Generated!');
-  }
-
-  generateBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
-    generateQR();
+    if (vpaDisplay) vpaDisplay.textContent = vpa;
+    resultBox?.classList.remove('hidden');
+    showToast(`Generated QR code for ${vpa}!`);
   });
 
-  resetBtn?.addEventListener('click', () => {
-    upiIdInput.value = 'Q';
-    upiHandleSelect.value = '@ybl';
-    qrResultBox.classList.add('hidden');
-    showToast('Reset to default');
+  upiIdInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      btnGenerate.click();
+    }
   });
 
-  downloadQrBtn?.addEventListener('click', () => {
-    const canvas = qrContainer.querySelector('canvas');
-    if (!canvas) return;
+  btnReset?.addEventListener('click', () => {
+    if (upiIdInput) upiIdInput.value = 'Q';
+    if (upiHandleSelect) upiHandleSelect.selectedIndex = 0;
+    if (qrContainer) qrContainer.innerHTML = '';
+    resultBox?.classList.add('hidden');
+    showToast('Reset UPI QR generator.');
+  });
+
+  btnDownload?.addEventListener('click', () => {
+    if (!qrContainer) return;
+    const imgOrCanvas = qrContainer.querySelector('canvas') || qrContainer.querySelector('img');
+    if (!imgOrCanvas) return;
+
+    let dataUrl = '';
+    if (imgOrCanvas.tagName.toLowerCase() === 'canvas') {
+      dataUrl = imgOrCanvas.toDataURL('image/png');
+    } else {
+      dataUrl = imgOrCanvas.src;
+    }
+
+    const rawId = (upiIdInput?.value || '').trim();
+    const handle = upiHandleSelect?.value || '@ybl';
+    const vpa = rawId.includes('@') ? rawId : `${rawId}${handle}`;
+    const safeName = vpa.replace(/[^a-zA-Z0-9_-]/g, '_');
+
     const link = document.createElement('a');
-    link.download = `UPI_QR_${vpaText.textContent}.png`;
-    link.href = canvas.toDataURL('image/png');
+    link.download = `${safeName}_UPI_QR.png`;
+    link.href = dataUrl;
     link.click();
-    showToast('Downloading QR Image...');
+    showToast('Downloaded UPI QR code!');
   });
 }
 
@@ -1892,3 +1932,5 @@ function initCalcifyDocs() {
     });
   });
 }
+
+// -------------------------------------------------------------

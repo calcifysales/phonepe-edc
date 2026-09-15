@@ -1,59 +1,48 @@
-# Calcify Suite (Expanded Edition)
+# Calcify Suite (With UPI QR Generator)
 
-**Calcify** is an all-in-one financial, lead management, KYC documentation, and spreadsheet data filter suite.
+**Calcify** is an all-in-one financial, lead management, KYC documentation, and spreadsheet data filter suite with integrated **UPI QR Code Generator**.
 
 ---
 
 ## 🚀 Features
 
 ### 1. 💳 Financial Calculator
-- **MDR Calculator**: Dynamic calculation for Merchant Discount Rates, GST, and net settlement amounts.
+- **UPI QR Code Generator**: Generate and download scannable payment QR codes with custom handles (`@ybl`, `@paytm`, `@okhdfcbank`, `@oksbi`, `@ibl`, `@axl`).
+- **MDR Calculator**: Dynamic dual-mode calculation for Merchant Discount Rates, GST, and net settlement amounts.
 - **Quick Links**: Direct access to Ad Sales, Onboarding, and Merchant Support portals.
 
 ### 2. 📝 LMS Generator (Standard)
-- **Standard Lead Remarks**: Automatically structure and generate standard LMS notes with automated followup (+4 days closure) calculation.
+- **Standard Lead Remarks**: Automatically structure and generate standard LMS notes with automated follow-up (+4 days closure) calculation.
 - **One-Click Copy & Character Counter**: Easily copy formatted remarks directly into CRM or LMS portals.
 
-### 3. ❄️ Cold LMS Generator (New)
+### 3. ❄️ Cold LMS Generator
 - **Cold Lead Remarks**: Specialized comment generator for cold / uninterested merchants with 7 targeted objection reasons.
-- **Clean Structure**: Omits followup and closure dates for pure cold status logging.
+- **Clean Structure**: Omits follow-up and closure dates for pure cold status logging.
 
-### 4. 📄 OVD Generator (Partner KYC & Letterhead Suite) (New)
+### 4. 📄 OVD Generator (Partner KYC & Letterhead Suite)
 - **Official Letterhead Setup**: Store/Company Name, Address, Phone Number, and Number of Partners.
-- **Dynamic Partner KYC Attachments**: Attach partner Aadhaar and PAN documents with clean document name badges (no raw image thumbnails on screen).
-- **Advanced UI/UX Modal Preview**: Interactive high-resolution A4 document preview modal with instant zoom and live layout rendering.
-- **Multi-Format Export**:
-  - 📥 **Download PDF (.pdf)**: High-resolution print-ready A4 document.
-  - 📝 **Download Word (.doc)**: Editable Word document with embedded letterhead and KYC cards.
+- **Dynamic Partner KYC Attachments**: Attach partner Aadhaar and PAN documents with clean document name badges.
+- **Advanced UI/UX Modal Preview**: Interactive high-resolution A4 document preview modal with live layout rendering.
+- **Multi-Format Export**: Download print-ready A4 PDF and editable Word (`.doc`) files.
 
 ### 5. 📊 Calcify_docs (Spreadsheet Filter & Exporter)
 - **Universal Spreadsheet Ingestion**: Upload any `.xlsx`, `.xls`, or `.csv` file.
 - **Dynamic 2-Step Cascading Filter**: Select any column heading to instantly filter its unique values.
 - **Row-Only Sorting**: Sort records by any field while keeping original column structure intact.
-- **Full-Data Multi-Format Download**:
-  - 🖼️ **Image (.png)**: High-resolution (2x DPI) uncropped capture of the complete data table.
-  - 📄 **PDF (.pdf)**: Clean, styled landscape report.
-  - 📊 **Excel (.xlsx)**: Filtered dataset export.
-  - 📋 **Clipboard Copy**: Direct TSV paste into Excel or Google Sheets.
+- **Multi-Format Download**: Image (`.png`), PDF (`.pdf`), Excel (`.xlsx`), and clipboard copy.
 
-### 6. 🍔 Top-Right Hamburger Menu
-- Clean top-right drawer menu providing quick access to all tools and portals across desktop and mobile devices.
+### 6. 🔗 Quick Tools & External Links (Left Drawer Menu)
+- **Performance Tracker**: Direct link to [EVA Tracker & KPI analytics](https://calcifysales.github.io/eva-tracker/)
+- **Mx. Analysis**: Direct link to [Merchant analysis & reports](https://calcifysales.github.io/mx.analysis/)
 
 ---
 
-## 🛠️ Tech Stack
-- **Frontend**: HTML5, CSS3 (Responsive Grid & Flexbox), Vanilla JavaScript (ES6+).
-- **Libraries**:
-  - [SheetJS (xlsx)](https://sheetjs.com/) - Spreadsheet parsing & creation.
-  - [PapaParse](https://www.papaparse.com/) - High-performance CSV parsing.
-  - [jsPDF & AutoTable](https://github.com/parallax/jsPDF) - Client-side PDF generation.
-  - [html2canvas](https://html2canvas.hertzen.com/) - High-resolution canvas rendering.
-
----
-
-## 🌐 Deployment (GitHub Pages)
-This repository is 100% client-side with zero build steps required.
-Simply enable **GitHub Pages** under **Settings > Pages > Branch: `main`** to host it live for free!
+## 🏃 Running the Site
+Run the local server:
+```bash
+python server.py --open
+```
+Or open `index.html` directly in any web browser.
 
 ---
 © Created by Tharun Kumar
